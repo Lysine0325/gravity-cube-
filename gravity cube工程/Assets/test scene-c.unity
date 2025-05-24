@@ -248,9 +248,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   movementMode: 0
-  directionMode: 1
-  moveDistance: 5
-  moveSpeed: 2
+  directionMode: 0
+  horizontalAngle: 62
+  moveDistance: 10.53
+  moveSpeed: 3.99
   pauseDuration: 1
   customWaypoints: []
 --- !u!54 &584674822
