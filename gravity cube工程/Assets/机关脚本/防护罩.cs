@@ -49,7 +49,7 @@ public class 防护罩 : MonoBehaviour
         正在无敌 = true;
         当前无敌时间 = 无敌时间;
         当前冷却时间 = 冷却时间;
-        角色Renderer.material.color = new Color(1f, 1f, 1f, 0.5f); // 角色变得半透明
+        角色Renderer.material.color = new Color(1f, 1f, 1f, 0.1f); // 角色变得半透明
         已免疫死亡 = true; // 启用免疫死亡
         if (倒计时文本 != null) 倒计时文本.text = "无敌中: " + 当前无敌时间.ToString("F1") + "s"; // 显示无敌倒计时
     }

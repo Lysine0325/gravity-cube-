@@ -50,6 +50,15 @@ public class 平移平台 : MonoBehaviour
     private Vector3 originalPosition;  // 初始位置
     private bool isReturning = false;    // 是否正在返回
     private bool reachedEnd = false;     // 是否到达终点
+    public void 暂停移动()
+    {
+        isMoving = false;
+    }
+
+    public void 恢复移动()
+    {
+        isMoving = true;
+    }
 
     void Start()
     {
