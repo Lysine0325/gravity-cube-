@@ -51,6 +51,7 @@ public class PlayerController1 : MonoBehaviour
         controller.Move(velocity * Time.deltaTime);
     }
 
+    //攀爬过程的逻辑，此时只有上下（ws）有相关的判断逻辑
     void HandleClimbing()
     {
         velocity = Vector3.zero;
@@ -67,14 +68,16 @@ public class PlayerController1 : MonoBehaviour
         }
     }
 
+    //触碰梯子启动攀爬的逻辑
     void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("Ladder"))
+        if (other.CompareTag("Ladder"))//检测是否是Ladder标签
         {
             EnterLadder(other.transform);
         }
     }
 
+    //确认结束攀爬的过程
     void OnTriggerExit(Collider other)
     {
         if (other.CompareTag("Ladder"))
@@ -83,6 +86,7 @@ public class PlayerController1 : MonoBehaviour
         }
     }
 
+    //启动攀爬之后的基本设置，要把ladder的参数传进去
     void EnterLadder(Transform ladder)
     {
         isClimbing = true;
@@ -95,6 +99,7 @@ public class PlayerController1 : MonoBehaviour
         velocity = Vector3.zero;
     }
 
+    //结束攀爬的设置
     void ExitLadder()
     {
         isClimbing = false;
