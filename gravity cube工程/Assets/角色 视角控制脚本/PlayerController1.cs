@@ -69,7 +69,7 @@ public class PlayerController1 : MonoBehaviour
 
     void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("Ladder"))
+        if (other.CompareTag("ÌÝ×Ó"))
         {
             EnterLadder(other.transform);
         }
@@ -77,7 +77,7 @@ public class PlayerController1 : MonoBehaviour
 
     void OnTriggerExit(Collider other)
     {
-        if (other.CompareTag("Ladder"))
+        if (other.CompareTag("ÌÝ×Ó"))
         {
             ExitLadder();
         }
