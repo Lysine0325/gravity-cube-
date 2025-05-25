@@ -14,9 +14,9 @@ public class CameraController : MonoBehaviour
 
     [Header("控制参数")]
     public float rotationSpeed = 45f;               // O/P 键盘旋转速度
-    public float dragSpeed = 2f;                    // 鼠标左键旋转灵敏度
-    public float zoomSpeed = 1f;                    // 缩放灵敏度（建议小一些）
-    public float minZoom = 0.5f;                    // 最小缩放因子
+    public float dragSpeed = 20f;                    // 鼠标左键旋转灵敏度
+    public float zoomSpeed = 25f;                    // 缩放灵敏度（建议小一些）
+    public float minZoom = 1f;                    // 最小缩放因子
     public float maxZoom = 2.0f;                    // 最大缩放因子
 
     [Range(0.5f, 2.0f)]
@@ -40,6 +40,7 @@ public class CameraController : MonoBehaviour
         HandleMouseHorizontalDrag();
         HandleZoom();
         UpdateCameraPosition();
+
     }
 
     /// <summary>
@@ -92,5 +93,9 @@ public class CameraController : MonoBehaviour
 
         transform.position = target.position + zoomedOffset;
         transform.LookAt(target.position);
+
+
+
     }
+
 }
