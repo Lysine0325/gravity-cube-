@@ -1,6 +1,11 @@
 fileFormatVersion: 2
+<<<<<<<< Updated upstream:gravity cube工程/Assets/Scenes/test-c 1.unity.meta
 guid: 2da80cbb6ae66df4e8188faacfed85b2
 DefaultImporter:
+========
+guid: 51fdf8e7e5d201d4ea50444d99f11424
+PrefabImporter:
+>>>>>>>> Stashed changes:gravity cube工程/Assets/Prefab/prefab_惯性锁.prefab.meta
   externalObjects: {}
   userData: 
   assetBundleName: 
