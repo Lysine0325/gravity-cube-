@@ -36,7 +36,7 @@ public class 拉杆 : MonoBehaviour
         }
 
         // 按键检测
-        if (处于触发范围 && Input.GetKeyDown(KeyCode.F))
+        if (处于触发范围 && Input.GetKeyDown(KeyCode.G))
         {
             切换状态();
         }

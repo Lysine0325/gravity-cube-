@@ -128,6 +128,25 @@ public class ModuleInventory : MonoBehaviour
             selectedIndex = Mathf.Clamp(selectedIndex, 0, heldModules.Count - 1);
         }
     }
+    /// <summary>
+    /// 减少一个拉杆
+    /// </summary>
+    public void Use拉杆()
+    {
+
+        SelectFixedType(ModuleType.拉杆);
+        ModuleEntry entry = heldModules[selectedIndex];
+        entry.count--;
+
+        Debug.Log($"使用模块：{entry.type}，剩余数量：{entry.count}");
+
+        if (entry.count <= 0)
+        {
+            heldModules.RemoveAt(selectedIndex);
+            selectedIndex = Mathf.Clamp(selectedIndex, 0, heldModules.Count - 1);
+        }
+    }
+
 
     /// <summary>
     /// 丢弃当前模块（在地面生成实体）

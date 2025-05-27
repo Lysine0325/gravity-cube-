@@ -1583,6 +1583,7 @@ GameObject:
   - component: {fileID: 1066319792}
   - component: {fileID: 1066319791}
   - component: {fileID: 1066319790}
+  - component: {fileID: 1066319795}
   m_Layer: 0
   m_Name: "\u62C9\u6746"
   m_TagString: Untagged
@@ -1724,6 +1725,28 @@ Transform:
   - {fileID: 691650907}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1066319795
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1066319789}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cbe2fbcd3d935234fa206c291bf90baa, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  "\u62C9\u6746\u6A21\u578B": {fileID: 691650906}
+  "\u62C9\u6746\u811A\u672C": {fileID: 1066319790}
+  "\u89E6\u53D1\u8DDD\u79BB": 3
+  "\u6FC0\u6D3B\u4E8B\u4EF6":
+    m_PersistentCalls:
+      m_Calls: []
+  "\u53D6\u6D88\u6FC0\u6D3B\u4E8B\u4EF6":
+    m_PersistentCalls:
+      m_Calls: []
+  "\u521D\u59CB\u62C9\u6746\u72B6\u6001": 0
 --- !u!1 &1067517155
 GameObject:
   m_ObjectHideFlags: 0
