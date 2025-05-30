@@ -23,6 +23,7 @@ public class ModuleInventory : MonoBehaviour
     public GameObject prefab_拉杆;
     public GameObject prefab_惯性锁;
     public GameObject prefab_防护罩;
+    public GameObject prefab_引力器;
 
     private 防护罩 shieldComponent;
     private 惯性锁 inertiaComponent;
@@ -34,6 +35,7 @@ public class ModuleInventory : MonoBehaviour
         modulePrefabs.Add(new ModulePrefabEntry { type = ModuleType.拉杆, prefab = prefab_拉杆 });
         modulePrefabs.Add(new ModulePrefabEntry { type = ModuleType.惯性锁, prefab = prefab_惯性锁 });
         modulePrefabs.Add(new ModulePrefabEntry { type = ModuleType.防护罩, prefab = prefab_防护罩 });
+        modulePrefabs.Add(new ModulePrefabEntry { type = ModuleType.引力器, prefab = prefab_引力器 });
         // 获取功能组件引用（假设和背包在同一 GameObject 上）
         inertiaComponent = GetComponent<惯性锁>();
         shieldComponent = GetComponent<防护罩>();
@@ -62,6 +64,8 @@ public class ModuleInventory : MonoBehaviour
             SelectFixedType(ModuleType.惯性锁);
         else if (Input.GetKeyDown(KeyCode.Alpha3))
             SelectFixedType(ModuleType.防护罩);
+        else if (Input.GetKeyDown(KeyCode.Alpha4))
+            SelectFixedType(ModuleType.引力器);
     }
 
     void SelectFixedType(ModuleType type)

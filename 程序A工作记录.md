@@ -279,3 +279,28 @@ Player
 - 只能在背包里面已有拉杆的时候插入，如果背包中没有该物品，则没法使用。
 
 
+
+## 7. 玩家下方工具栏UI显示：ModuleHotbarUI.cs
+
+- **涉及脚本：** `ModuleHotbarUI.cs`
+- **用处：** 显示玩家当前背包中四种模块（拉杆、惯性锁、防护罩、引力器）的持有状态；
+  - **拉杆：** 显示具体数量（支持多个）；
+  - **惯性锁 / 防护罩 / 引力器：** 不显示数量，仅用图标的**彩色/灰色**显示是否拥有；
+  - 图标在背包中有 → 彩色图；
+  - 图标在背包中无 → 灰色图；
+- **挂载对象：** `ModuleHotbarPanel`（UI Canvas 下方面板）
+- **绑定字段：**
+  - `inventory`：拖入玩家身上的 `ModuleInventory.cs` 组件
+  - `icon_*`：拖入对应模块图标的 `Image` 组件（四个）
+  - `count_拉杆`：拖入 `Slot_拉杆` 中显示数量的 `TextMeshProUGUI`
+  - `*_彩色` / `*_灰色`：拖入四种模块各自的彩色和灰色 Sprite 图标
+- **要求：**
+  - 每个模块格子为一个 `Slot_*` GameObject，固定宽高（推荐 80×80）
+  - 每个 `Slot_*` 中包含一个 `Icon (Image)`，图标大小推荐为 60×60 或 Stretch 填满
+  - `拉杆` 额外添加 `CountText`，显示数量，位置建议在右下角，字体白色、靠右底对齐
+  - `ModuleHotbarPanel` 应添加 `HorizontalLayoutGroup` 与 `ContentSizeFitter`，自动排列四个模块格子，锚点设置为屏幕底部中间
+- **运行逻辑：**
+  - 每帧（`Update`）根据 `ModuleInventory` 的持有情况刷新 UI：
+    - 拉杆：数量更新 + 图标变色
+    - 其他模块：图标变色（是否拥有）
+  - 丢弃 / 捡起道具时 UI 自动更新（不需要手动调用）

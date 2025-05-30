@@ -10,6 +10,7 @@ public enum ModuleType
     拉杆,
     惯性锁,
     防护罩,
+    引力器,
     转盘插柄
 }
 public class ModuleItem : MonoBehaviour
