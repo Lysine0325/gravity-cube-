@@ -10,6 +10,7 @@ public class ModuleSocket : MonoBehaviour
     public GameObject 拉杆模型;        // 插槽上的拉杆模型（默认为隐藏）
     public 拉杆 拉杆脚本;  // 拉杆.cs 脚本组件引用
     public float 触发距离 = 3f;         // 玩家触发插槽的距离
+    public KeyCode 交互按键 = KeyCode.F; // 交互按键（默认为F键）
     public UnityEvent 激活事件;         // 拉杆插入后激活的事件
     public UnityEvent 取消激活事件;     // 拉杆拔出后取消激活的事件
     public bool 初始拉杆状态;
@@ -27,7 +28,7 @@ public class ModuleSocket : MonoBehaviour
     private void Update()
     {
         // 当玩家按下 F 键并且处于插槽的触发范围内时
-        if (处于触发范围 && Input.GetKeyDown(KeyCode.F))
+        if (处于触发范围 && Input.GetKeyDown(交互按键))
         {
             切换拉杆状态();
         }

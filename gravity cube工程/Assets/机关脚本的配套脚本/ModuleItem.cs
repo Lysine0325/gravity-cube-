@@ -34,18 +34,6 @@ public class ModuleItem : MonoBehaviour
         col = GetComponent<Collider>();
     }
 
-    //丢弃功能
-    public void Drop(Vector3 position)
-    {
-        isHeld = false;
-        transform.SetParent(null);
-        transform.position = position;
-
-        if (rb) rb.isKinematic = false;
-        if (col) col.enabled = true;
-    }
-
-
     //返回初始生成位置
     public void ResetToOriginalPosition()
     {

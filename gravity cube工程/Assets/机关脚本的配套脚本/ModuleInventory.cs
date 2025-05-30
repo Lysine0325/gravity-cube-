@@ -24,6 +24,9 @@ public class ModuleInventory : MonoBehaviour
     public GameObject prefab_惯性锁;
     public GameObject prefab_防护罩;
 
+    private 防护罩 shieldComponent;
+    private 惯性锁 inertiaComponent;
+
     void Start()
     {
         // 自动填充 modulePrefabs 列表
@@ -31,6 +34,9 @@ public class ModuleInventory : MonoBehaviour
         modulePrefabs.Add(new ModulePrefabEntry { type = ModuleType.拉杆, prefab = prefab_拉杆 });
         modulePrefabs.Add(new ModulePrefabEntry { type = ModuleType.惯性锁, prefab = prefab_惯性锁 });
         modulePrefabs.Add(new ModulePrefabEntry { type = ModuleType.防护罩, prefab = prefab_防护罩 });
+        // 获取功能组件引用（假设和背包在同一 GameObject 上）
+        inertiaComponent = GetComponent<惯性锁>();
+        shieldComponent = GetComponent<防护罩>();
     }
 
     void Update()
@@ -41,6 +47,8 @@ public class ModuleInventory : MonoBehaviour
         {
             DropCurrentModule();
         }
+
+        UpdateSpecialModuleStates();
     }
 
     /// <summary>
@@ -91,6 +99,17 @@ public class ModuleInventory : MonoBehaviour
         return heldModules.Exists(entry => entry.type == type && entry.count > 0);
     }
 
+    //持有状态更改
+    void UpdateSpecialModuleStates()
+    {
+        // “是否持有”的判断依据是：背包中是否有模块（不是组件存在性！）
+        if (inertiaComponent != null)
+            inertiaComponent.拥有惯性锁 = HasModule(ModuleType.惯性锁);
+
+        if (shieldComponent != null)
+            shieldComponent.是否持有防护罩 = HasModule(ModuleType.防护罩);
+    }
+
     /// <summary>
     /// 增加一个模块（拾取）
     /// </summary>
@@ -110,8 +129,10 @@ public class ModuleInventory : MonoBehaviour
     }
 
 
+
+
     /// <summary>
-    /// 减少当前模块的数量（只针对插入，使用不会减少）
+    /// 减少当前模块的数量（暂时好像没用）
     /// </summary>
     public void UseCurrentModule()
     {
