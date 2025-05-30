@@ -26,6 +26,14 @@ public class CameraController : MonoBehaviour
     private float currentAngle = 0f;                // 当前 Y 轴角度 
     private Vector2 lastMousePos;
 
+    //与过度动画有关
+    private Transform currentTarget;
+    private bool isTransitioning = false;
+    private float transitionTimer = 0f;
+    private float transitionDuration = 0.5f; // 控制过渡持续时间
+    private Vector3 startPos;
+    private Vector3 targetPos;
+
     void Start()
     {
         if (target == null)
@@ -39,9 +47,21 @@ public class CameraController : MonoBehaviour
         HandleKeyRotation();
         HandleMouseHorizontalDrag();
         HandleZoom();
-        UpdateCameraPosition();
 
+        if (target != currentTarget)
+        {
+            // 目标改变 → 开始平滑过渡
+            currentTarget = target;
+            isTransitioning = true;
+            transitionTimer = 0f;
+
+            // 起始位置记录
+            startPos = transform.position;
+        }
+
+        UpdateCameraPosition();
     }
+
 
     /// <summary>
     /// O / P 键控制水平旋转
@@ -85,17 +105,30 @@ public class CameraController : MonoBehaviour
     /// <summary>
     /// 根据角度与缩放更新相机位置
     /// </summary>
+
     void UpdateCameraPosition()
     {
         // 旋转基础 offset，并根据缩放因子放大/缩小
         Vector3 rotatedOffset = Quaternion.Euler(0, currentAngle, 0) * baseOffset;
         Vector3 zoomedOffset = rotatedOffset * zoomFactor;
+        Vector3 desiredPos = target.position + zoomedOffset;
 
-        transform.position = target.position + zoomedOffset;
+        //如果是物体切换
+        if (isTransitioning)
+        {
+            transitionTimer += Time.deltaTime;
+            float t = Mathf.Clamp01(transitionTimer / transitionDuration);
+            transform.position = Vector3.Lerp(startPos, desiredPos, t);
+
+            if (t >= 1f) isTransitioning = false;
+        }
+        else
+        {
+            transform.position = desiredPos;
+        }
+
         transform.LookAt(target.position);
-
-
-
     }
+
 
 }

@@ -27,6 +27,7 @@ public class ModuleInventory : MonoBehaviour
 
     private 防护罩 shieldComponent;
     private 惯性锁 inertiaComponent;
+    private 引力器 GravityComponent;
 
     void Start()
     {
@@ -39,6 +40,7 @@ public class ModuleInventory : MonoBehaviour
         // 获取功能组件引用（假设和背包在同一 GameObject 上）
         inertiaComponent = GetComponent<惯性锁>();
         shieldComponent = GetComponent<防护罩>();
+        GravityComponent = GetComponent <引力器>();
     }
 
     void Update()
@@ -103,15 +105,19 @@ public class ModuleInventory : MonoBehaviour
         return heldModules.Exists(entry => entry.type == type && entry.count > 0);
     }
 
-    //持有状态更改
+    //持有状态更改（选中+持有！）
     void UpdateSpecialModuleStates()
     {
-        // “是否持有”的判断依据是：背包中是否有模块（不是组件存在性！）
+        ModuleType 当前选中 = GetCurrentModule();
+
         if (inertiaComponent != null)
-            inertiaComponent.拥有惯性锁 = HasModule(ModuleType.惯性锁);
+            inertiaComponent.拥有惯性锁 = (当前选中 == ModuleType.惯性锁) && HasModule(ModuleType.惯性锁);
 
         if (shieldComponent != null)
-            shieldComponent.是否持有防护罩 = HasModule(ModuleType.防护罩);
+            shieldComponent.是否持有防护罩 = (当前选中 == ModuleType.防护罩) && HasModule(ModuleType.防护罩);
+
+        if (GravityComponent != null)
+            GravityComponent.拥有引力器 = (当前选中 == ModuleType.引力器) && HasModule(ModuleType.引力器);
     }
 
     /// <summary>
