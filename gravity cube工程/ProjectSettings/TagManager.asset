@@ -10,6 +10,7 @@ TagManager:
   - InertiaLockable
   - "\u60EF\u6027\u9501\u5E73\u53F0"
   - Ladder
+  - Star
   layers:
   - Default
   - TransparentFX
