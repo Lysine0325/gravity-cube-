@@ -36,7 +36,7 @@ public class 平移平台 : MonoBehaviour
     [Tooltip("触发区域高度偏移")]
     public float triggerYOffset = 0.5f;
     [Tooltip("触发区域尺寸")]
-    public Vector3 triggerSize = new Vector3(1f, 0.2f, 1f);
+    public Vector3 triggerSize = new Vector3(1f, 0.5f, 1f);
 
     // 私有变量
     private Rigidbody rb;

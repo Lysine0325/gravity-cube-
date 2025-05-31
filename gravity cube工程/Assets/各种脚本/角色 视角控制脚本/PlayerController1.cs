@@ -6,6 +6,7 @@ public class PlayerController1 : MonoBehaviour
     [Header("移动参数")]
     public float moveSpeed = 5f;
     public float gravity = -9.8f;
+    public Animator animator;  // 拖入你“模型”上的 Animator
 
     private CharacterController controller;
     private Vector3 velocity;
@@ -41,6 +42,11 @@ public class PlayerController1 : MonoBehaviour
 
         Vector3 input = new Vector3(h, 0, v);
         Vector3 move = Quaternion.Euler(0, Camera.main.transform.eulerAngles.y, 0) * input;
+
+        // 控制角色朝向
+        if (move != Vector3.zero)
+            transform.forward = new Vector3(move.x, 0, move.z);
+
         controller.Move(move * moveSpeed * Time.deltaTime);
 
         if (controller.isGrounded && velocity.y < 0)
@@ -49,6 +55,11 @@ public class PlayerController1 : MonoBehaviour
             velocity.y += gravity * Time.deltaTime;
 
         controller.Move(velocity * Time.deltaTime);
+
+        //计算速度大小传给 Animator
+        float speed = new Vector3(move.x, 0, move.z).magnitude;
+        animator.SetFloat("Speed", speed);
+
     }
 
     //攀爬过程的逻辑，此时只有上下（ws）有相关的判断逻辑

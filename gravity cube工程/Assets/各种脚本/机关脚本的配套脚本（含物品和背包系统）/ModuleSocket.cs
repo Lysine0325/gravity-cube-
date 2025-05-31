@@ -16,13 +16,14 @@ public class ModuleSocket : MonoBehaviour
     public bool 初始拉杆状态;
 
     private bool 处于触发范围 = false;  // 玩家是否在插槽触发范围内
-    private bool 当前激活状态 = false;  // 当前拉杆是否激活
+    private bool 当前激活状态 = false;  // 当前拉杆是否激活，影响拔插
 
     private void Start()
     {
         拉杆模型.SetActive(初始拉杆状态);
         if (初始拉杆状态) 启用拉杆功能();
-        else 禁用拉杆功能();
+        if (初始拉杆状态) 当前激活状态 = true;
+        else 禁用拉杆功能();//拉杆功能是对子对象的影响
     }
 
     private void Update()

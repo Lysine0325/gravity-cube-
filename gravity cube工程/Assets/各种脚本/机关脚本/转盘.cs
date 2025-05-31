@@ -1,11 +1,12 @@
 using UnityEngine;
 using UnityEngine.UI;
+using System.Collections.Generic;
 
 public class 转盘 : MonoBehaviour
 {
     [Header("控制设置")]
-    [Tooltip("需要控制的旋转平台")]
-    public 旋转平台 targetPlatform;
+    [Tooltip("需要控制的多个旋转平台")]
+    public List<旋转平台> targetPlatforms;  // Change this to a list
     [Tooltip("可操作的最大距离")]
     public float 可操作距离 = 3f;
     [Tooltip("每次旋转后锁定时间（防止连续触发）")]
@@ -32,9 +33,9 @@ public class 转盘 : MonoBehaviour
         玩家 = GameObject.FindGameObjectWithTag("Player").transform;
 
         // 初始化平台状态
-        if (targetPlatform != null)
+        foreach (var platform in targetPlatforms)
         {
-            targetPlatform.Activate();
+            platform.Activate();
         }
 
         // 隐藏引导图片
@@ -46,7 +47,7 @@ public class 转盘 : MonoBehaviour
 
     void Update()
     {
-        if (玩家 == null || targetPlatform == null) return;
+        if (玩家 == null || targetPlatforms.Count == 0) return;
 
         // 更新距离检测
         更新距离检测();
@@ -110,14 +111,20 @@ public class 转盘 : MonoBehaviour
     {
         允许操作 = false;
 
-        switch (direction)
+        foreach (var platform in targetPlatforms)
         {
-            case RotationDirection.Clockwise:
-                targetPlatform.RotateClockwise();
-                break;
-            case RotationDirection.CounterClockwise:
-                targetPlatform.RotateCounterClockwise();
-                break;
+            if (platform != null)
+            {
+                switch (direction)
+                {
+                    case RotationDirection.Clockwise:
+                        platform.RotateClockwise();
+                        break;
+                    case RotationDirection.CounterClockwise:
+                        platform.RotateCounterClockwise();
+                        break;
+                }
+            }
         }
 
         // 添加操作反馈
@@ -138,9 +145,9 @@ public class 转盘 : MonoBehaviour
     void OnValidate()
     {
         // 自动绑定平台组件（如果为空）
-        if (targetPlatform == null)
+        if (targetPlatforms == null || targetPlatforms.Count == 0)
         {
-            targetPlatform = GetComponent<旋转平台>();
+            targetPlatforms = new List<旋转平台>(GetComponentsInChildren<旋转平台>());
         }
 
         // 确保距离有效
@@ -154,10 +161,13 @@ public class 转盘 : MonoBehaviour
         Gizmos.DrawWireSphere(transform.position, 可操作距离);
 
         // 绘制平台连接线
-        if (targetPlatform != null)
+        foreach (var platform in targetPlatforms)
         {
-            Gizmos.color = Color.magenta;
-            Gizmos.DrawLine(transform.position, targetPlatform.transform.position);
+            if (platform != null)
+            {
+                Gizmos.color = Color.magenta;
+                Gizmos.DrawLine(transform.position, platform.transform.position);
+            }
         }
     }
 }
