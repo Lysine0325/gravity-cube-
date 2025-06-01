@@ -77,6 +77,13 @@ public class PlayerController1 : MonoBehaviour
         {
             ExitLadder();
         }
+
+        animator.SetFloat("Speed", Mathf.Abs(vertical));
+
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            ExitLadder();
+        }
     }
 
     //触碰梯子启动攀爬的逻辑
@@ -104,16 +111,20 @@ public class PlayerController1 : MonoBehaviour
         currentLadder = ladder;
         climbDirection = ladder.up;
 
-        //  简洁贴近梯子，只重设 X/Z，不乱动 Y
         Vector3 pos = transform.position;
         transform.position = new Vector3(ladder.position.x, pos.y, ladder.position.z);
         velocity = Vector3.zero;
+
+        animator.SetBool("IsClimbing", true); // 
     }
+
 
     //结束攀爬的设置
     void ExitLadder()
     {
         isClimbing = false;
         currentLadder = null;
+
+        animator.SetBool("IsClimbing", false); 
     }
 }

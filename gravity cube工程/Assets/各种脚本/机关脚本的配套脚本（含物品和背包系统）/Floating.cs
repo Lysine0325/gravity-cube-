@@ -13,16 +13,19 @@ public class Floating : MonoBehaviour
 
     void Start()
     {
-        startPos = transform.position;
+        // 记录初始相对父级的位置
+        startPos = transform.localPosition;
     }
 
     void Update()
     {
-        // 旋转
-        transform.Rotate(Vector3.up, rotationSpeed * Time.deltaTime, Space.World);
+        // 旋转，绕着物体自身的Y轴进行旋转
+        transform.Rotate(Vector3.up, rotationSpeed * Time.deltaTime, Space.Self);
 
         // 上下浮动
         float offsetY = Mathf.Sin(Time.time * floatFrequency) * floatAmplitude;
-        transform.position = new Vector3(startPos.x, startPos.y + offsetY, startPos.z);
+
+        // 使用 localPosition 保证物体相对于父物体的位置
+        transform.localPosition = new Vector3(startPos.x, startPos.y + offsetY, startPos.z);
     }
 }

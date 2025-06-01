@@ -44,7 +44,7 @@ public class 惯性锁 : MonoBehaviour
                     设置提示("右键锁定该平台");
                 }
             }
-            else if (!惯性锁生效中) // Only clear the tip when the lock is not active
+            else if (!惯性锁生效中)
             {
                 移除悬停描边();
                 清除提示();
@@ -55,10 +55,8 @@ public class 惯性锁 : MonoBehaviour
         else
         {
             移除悬停描边();
-            if (!惯性锁生效中) // Clear tip only when lock is not active
-            {
+            if (!惯性锁生效中)
                 清除提示();
-            }
             当前悬停物体 = null;
         }
 
@@ -102,17 +100,16 @@ public class 惯性锁 : MonoBehaviour
 
         当前描边 = 平台对象.GetComponent<Outline>();
         if (当前描边 == null)
-        {
             当前描边 = 平台对象.AddComponent<Outline>();
-        }
 
         当前描边.color = 2; // 紫色
         当前描边.eraseRenderer = false;
+        当前描边.enabled = true;
 
         惯性锁生效中 = true;
         设置提示("再次右键取消惯性锁功能");
 
-        移除悬停描边(); // 不再显示绿色描边
+        移除悬停描边(); // 悬停不再显示
     }
 
     void 解锁平台()
@@ -135,36 +132,37 @@ public class 惯性锁 : MonoBehaviour
         }
 
         if (当前描边 != null)
-        {
-            Destroy(当前描边);
-        }
+            当前描边.enabled = false;
 
         当前目标平台 = null;
         当前描边 = null;
         惯性锁生效中 = false;
 
-        清除提示(); // 清除提示
+        清除提示();
     }
-
 
     void 添加悬停描边(GameObject 平台对象)
     {
-        悬停描边 = 平台对象.GetComponent<Outline>();
-        if (悬停描边 == null)
-        {
-            悬停描边 = 平台对象.AddComponent<Outline>();
-        }
-        悬停描边.color = 0; // 浅绿色（cakeslice 默认色之一）
-        悬停描边.eraseRenderer = false;
+        // 不重复添加或干扰锁定描边
+        if (惯性锁生效中 && 平台对象 == 当前目标平台?.gameObject)
+            return;
 
+        Outline outline = 平台对象.GetComponent<Outline>();
+        if (outline == null)
+            outline = 平台对象.AddComponent<Outline>();
+
+        outline.color = 0; // 浅绿色
+        outline.eraseRenderer = false;
+        outline.enabled = true;
+
+        悬停描边 = outline;
     }
 
     void 移除悬停描边()
     {
         if (悬停描边 != null && 悬停描边 != 当前描边)
-        {
-            Destroy(悬停描边);
-        }
+            悬停描边.enabled = false;
+
         悬停描边 = null;
     }
 

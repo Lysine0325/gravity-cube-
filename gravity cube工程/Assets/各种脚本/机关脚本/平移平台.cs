@@ -13,6 +13,8 @@ public class 平移平台 : MonoBehaviour
     public MovementMode movementMode = MovementMode.Auto;
     [Tooltip("移动方向轴选择")]
     public DirectionMode directionMode = DirectionMode.Horizontal;
+    [Tooltip("垂直移动是否向下（仅当方向为 Vertical 时生效）")]
+    public bool verticalDown = false;
     [Tooltip("水平移动方向角度（0=正X轴，逆时针增加）")]
     [Range(0, 360)] public float horizontalAngle = 0f;
     [Tooltip("平台单程移动距离")]
@@ -37,6 +39,7 @@ public class 平移平台 : MonoBehaviour
     public float triggerYOffset = 0.5f;
     [Tooltip("触发区域尺寸")]
     public Vector3 triggerSize = new Vector3(1f, 0.5f, 1f);
+
 
     // 私有变量
     private Rigidbody rb;
@@ -102,7 +105,9 @@ public class 平移平台 : MonoBehaviour
             Quaternion rotation = Quaternion.Euler(0, horizontalAngle, 0);
             return rotation * Vector3.right;
         }
-        return transform.up;
+
+        // 垂直方向：向上或向下
+        return verticalDown ? -transform.up : transform.up;
     }
 
     void FixedUpdate()
