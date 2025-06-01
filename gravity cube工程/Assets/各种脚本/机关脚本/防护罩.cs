@@ -8,6 +8,9 @@ public class 防护罩 : MonoBehaviour
     public bool 是否持有防护罩 = false; // 用于控制是否持有防护罩
     public float 无敌时间 = 3f; // 无敌时间（秒）
     public float 冷却时间 = 5f; // 冷却时间（秒）
+    public float 当前无敌剩余时间 => 当前无敌时间;
+    public float 当前冷却剩余时间 => 当前冷却时间;
+
 
     [Header("UI设置")]
     public TextMeshProUGUI 倒计时文本; // 用于显示倒计时
@@ -25,6 +28,7 @@ public class 防护罩 : MonoBehaviour
         角色Renderer = GetComponent<Renderer>(); // 获取角色的渲染器
         if (倒计时文本 != null) 倒计时文本.text = ""; // 初始化倒计时文本
         if (冷却倒计时文本 != null) 冷却倒计时文本.text = ""; // 初始化冷却倒计时文本
+
     }
 
     void Update()

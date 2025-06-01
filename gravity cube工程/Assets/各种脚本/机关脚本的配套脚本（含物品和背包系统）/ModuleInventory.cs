@@ -93,7 +93,13 @@ public class ModuleInventory : MonoBehaviour
     /// </summary>
     public ModuleType GetCurrentModule()
     {
-        if (heldModules.Count == 0) return ModuleType.None;
+        if (heldModules == null || heldModules.Count == 0)
+            return ModuleType.None;
+
+        // ∑¿÷π selectedIndex ‘ΩΩÁ
+        if (selectedIndex < 0 || selectedIndex >= heldModules.Count)
+            return ModuleType.None;
+
         return heldModules[selectedIndex].type;
     }
 

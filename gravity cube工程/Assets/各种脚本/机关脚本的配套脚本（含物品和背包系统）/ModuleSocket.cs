@@ -17,23 +17,34 @@ public class ModuleSocket : MonoBehaviour
 
     private bool 处于触发范围 = false;  // 玩家是否在插槽触发范围内
     private bool 当前激活状态 = false;  // 当前拉杆是否激活，影响拔插
-
-    private void Start()
+    private ModuleHintManager hintManager;
+    void Start()
     {
+        hintManager = GameObject.FindWithTag("Player")?.GetComponent<ModuleHintManager>();
+
         拉杆模型.SetActive(初始拉杆状态);
         if (初始拉杆状态) 启用拉杆功能();
         if (初始拉杆状态) 当前激活状态 = true;
-        else 禁用拉杆功能();//拉杆功能是对子对象的影响
+        else 禁用拉杆功能();
     }
 
-    private void Update()
+
+    void Update()
     {
-        // 当玩家按下 F 键并且处于插槽的触发范围内时
         if (处于触发范围 && Input.GetKeyDown(交互按键))
         {
             切换拉杆状态();
         }
+
+        // 每帧更新插槽状态给提示系统
+        if (hintManager != null && 处于触发范围)
+        {
+            hintManager.插槽已插入 = 当前激活状态;
+            hintManager.插槽可插入 = !当前激活状态 &&
+                GameObject.FindWithTag("Player").GetComponent<ModuleInventory>().GetCurrentModule() == ModuleType.拉杆;
+        }
     }
+
 
     // 检测玩家是否接触插槽
     private void OnTriggerEnter(Collider other)
@@ -41,16 +52,28 @@ public class ModuleSocket : MonoBehaviour
         if (other.CompareTag("Player"))
         {
             处于触发范围 = true;
+
+            if (hintManager != null)
+            {
+                hintManager.靠近插槽 = true;
+            }
         }
     }
+
 
     private void OnTriggerExit(Collider other)
     {
         if (other.CompareTag("Player"))
         {
             处于触发范围 = false;
+
+            if (hintManager != null)
+            {
+                hintManager.靠近插槽 = false;
+            }
         }
     }
+
 
     private void 禁用拉杆功能()
     {

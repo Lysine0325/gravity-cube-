@@ -84,6 +84,10 @@ public class 惯性锁 : MonoBehaviour
         }
     }
 
+    public bool 惯性锁生效状态()
+    {
+        return 惯性锁生效中;
+    }
     void 锁定平台(GameObject 平台对象, 平移平台 平移, 旋转平台 旋转)
     {
         if (平移 != null)
