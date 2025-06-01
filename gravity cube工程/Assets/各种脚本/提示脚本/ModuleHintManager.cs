@@ -25,7 +25,7 @@ public class ModuleHintManager : MonoBehaviour
         // -------- 1. 状态提示优先级 --------
         if (gravityTool != null && gravityTool.正在控制状态())
         {
-            设置提示("控制中：WASD移动，J 退出");
+            设置提示("控制中：WASD移动，G 退出控制");
             return;
         }
 
@@ -117,7 +117,7 @@ public class ModuleHintManager : MonoBehaviour
                 设置提示("持有时，鼠标悬停平台，右键锁定");
                 break;
             case ModuleType.引力器:
-                设置提示("持有时靠近可选物体，按 J 控制");
+                设置提示("持有时靠近可选物体，按 G 控制");
                 break;
         }
 

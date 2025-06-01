@@ -8,7 +8,7 @@ public class 引力器 : MonoBehaviour
     public bool 拥有引力器 = false;
     public float 控制范围 = 5f;
     public float 移动速度 = 3f;
-    public KeyCode 交互键 = KeyCode.J;
+    public KeyCode 交互键 = KeyCode.G;
     public string 可控Tag = "能触机关的";
     public float 最近高亮距离 = 5f;
 
@@ -62,7 +62,7 @@ public class 引力器 : MonoBehaviour
 
             if (当前目标物体 != null)
             {
-                设置提示("按 J 控制该物体");
+                设置提示("按 G 控制该物体");
 
                 if (Input.GetKeyDown(交互键))
                 {
@@ -126,7 +126,7 @@ public class 引力器 : MonoBehaviour
         正在控制 = true;
         玩家控制器.enabled = false;
 
-        设置提示("控制中：WASD移动，J 退出");
+        设置提示("控制中：WASD移动，G 退出");
 
         相机控制器.target = 当前目标物体.transform;
         激光线.enabled = true;  // 启用激光线

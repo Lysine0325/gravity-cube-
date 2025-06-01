@@ -11,10 +11,12 @@ public class 防护罩 : MonoBehaviour
     public float 当前无敌剩余时间 => 当前无敌时间;
     public float 当前冷却剩余时间 => 当前冷却时间;
 
-
     [Header("UI设置")]
     public TextMeshProUGUI 倒计时文本; // 用于显示倒计时
     public TextMeshProUGUI 冷却倒计时文本; // 用于显示冷却倒计时
+
+    [Header("防护罩模型")]
+    public GameObject 防护罩模型; // 防护罩的模型
 
     private bool 正在无敌 = false; // 是否处于无敌状态
     private float 当前无敌时间 = 0f; // 当前无敌时间
@@ -29,6 +31,8 @@ public class 防护罩 : MonoBehaviour
         if (倒计时文本 != null) 倒计时文本.text = ""; // 初始化倒计时文本
         if (冷却倒计时文本 != null) 冷却倒计时文本.text = ""; // 初始化冷却倒计时文本
 
+        if (防护罩模型 != null)
+            防护罩模型.SetActive(false); // 防护罩开始时隐藏
     }
 
     void Update()
@@ -55,6 +59,10 @@ public class 防护罩 : MonoBehaviour
         当前冷却时间 = 冷却时间;
         角色Renderer.material.color = new Color(1f, 1f, 1f, 0.1f); // 角色变得半透明
         已免疫死亡 = true; // 启用免疫死亡
+
+        if (防护罩模型 != null)
+            防护罩模型.SetActive(true); // 防护罩生效，显示模型
+
         if (倒计时文本 != null) 倒计时文本.text = "无敌中: " + 当前无敌时间.ToString("F1") + "s"; // 显示无敌倒计时
     }
 
@@ -71,6 +79,10 @@ public class 防护罩 : MonoBehaviour
             正在无敌 = false;
             角色Renderer.material.color = new Color(1f, 1f, 1f, 1f);
             已免疫死亡 = false;
+
+            if (防护罩模型 != null)
+                防护罩模型.SetActive(false); // 无敌结束，隐藏防护罩模型
+
             if (倒计时文本 != null) 倒计时文本.text = "";
         }
     }
@@ -84,8 +96,6 @@ public class 防护罩 : MonoBehaviour
         }
         已免疫死亡 = false;  // 确保结束时清除免疫死亡标志
     }
-
-
 
     void 处理冷却状态()
     {
