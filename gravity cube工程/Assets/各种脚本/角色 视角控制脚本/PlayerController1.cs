@@ -18,6 +18,12 @@ public class PlayerController1 : MonoBehaviour
     private Vector3 climbDirection = Vector3.up;
     private Transform currentLadder;
 
+    [Header("音效")]
+    public AudioSource walkAudioSource; // 角色的音效源（需要拖入）
+    public AudioClip walkSound; // 走路音效
+
+    private bool isWalking = false; // 控制音效播放的状态
+
     void Start()
     {
         controller = GetComponent<CharacterController>();
@@ -60,6 +66,24 @@ public class PlayerController1 : MonoBehaviour
         float speed = new Vector3(move.x, 0, move.z).magnitude;
         animator.SetFloat("Speed", speed);
 
+        // 只有在角色移动时播放音效
+        if (speed > 0 && !isWalking)
+        {
+            isWalking = true;
+            if (walkAudioSource != null && walkSound != null)
+            {
+                walkAudioSource.clip = walkSound;
+                walkAudioSource.Play();
+            }
+        }
+        else if (speed == 0 && isWalking)
+        {
+            isWalking = false;
+            if (walkAudioSource != null)
+            {
+                walkAudioSource.Stop();
+            }
+        }
     }
 
     //攀爬过程的逻辑，此时只有上下（ws）有相关的判断逻辑
@@ -118,13 +142,12 @@ public class PlayerController1 : MonoBehaviour
         animator.SetBool("IsClimbing", true); // 
     }
 
-
     //结束攀爬的设置
     void ExitLadder()
     {
         isClimbing = false;
         currentLadder = null;
 
-        animator.SetBool("IsClimbing", false); 
+        animator.SetBool("IsClimbing", false);
     }
 }

@@ -3,7 +3,6 @@ using UnityEngine;
 /// <summary>
 /// 表示一个可以被玩家拾取、携带、放置的模块道具（如拉杆、惯性锁）
 /// </summary>
-/// 
 public enum ModuleType
 {
     None,
@@ -13,6 +12,7 @@ public enum ModuleType
     引力器,
     转盘插柄
 }
+
 public class ModuleItem : MonoBehaviour
 {
     [Header("模块基本信息")]
@@ -24,18 +24,23 @@ public class ModuleItem : MonoBehaviour
     public bool isHeld = false;                 // 当前是否被玩家持有
     public bool allowReuse = true;              // 是否允许拔出并重复使用
 
+    [Header("音效")]
+    public AudioSource pickUpAudioSource;       // 用于播放拾取音效的音频源
+    public AudioClip pickUpSound;               // 捡到道具时播放的音效
+
     private Transform originalParent;           // 初始生成位置
     private Rigidbody rb;
     private Collider col;
 
     void Awake()
-    {   //初始化，记录原始位置，获取 Rigidbody 和 Collider 引用
+    {
+        // 初始化，记录原始位置，获取 Rigidbody 和 Collider 引用
         originalParent = transform.parent;
         rb = GetComponent<Rigidbody>();
         col = GetComponent<Collider>();
     }
 
-    //返回初始生成位置
+    // 返回初始生成位置
     public void ResetToOriginalPosition()
     {
         isHeld = false;
@@ -58,8 +63,13 @@ public class ModuleItem : MonoBehaviour
                 gameObject.SetActive(false); // 隐藏该道具
                 Debug.Log($"玩家自动拾取模块：{type}");
                 isHeld = true;
+
+                // 播放捡到道具的音效
+                if (pickUpAudioSource != null && pickUpSound != null)
+                {
+                    pickUpAudioSource.PlayOneShot(pickUpSound);
+                }
             }
         }
     }
-
 }

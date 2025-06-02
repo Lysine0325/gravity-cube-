@@ -22,6 +22,10 @@ public class 引力器 : MonoBehaviour
     public float 扭曲速度 = 5f;  // 激光扭曲速度
     public Color 激光颜色 = new Color(0.5f, 0.8f, 1f);  // 浅蓝色激光
 
+    [Header("音效设置")]
+    public AudioSource 控制音效源; // 用来播放操控音效的音频源
+    public AudioClip 控制音效;    // 操控音效
+
     private GameObject 当前目标物体;
     private GameObject 上一个高亮物体;
     private bool 正在控制 = false;
@@ -85,6 +89,7 @@ public class 引力器 : MonoBehaviour
             }
         }
     }
+
     public bool 正在控制状态()
     {
         return 正在控制;
@@ -130,6 +135,14 @@ public class 引力器 : MonoBehaviour
 
         相机控制器.target = 当前目标物体.transform;
         激光线.enabled = true;  // 启用激光线
+
+        // 播放操控音效，并设置为循环
+        if (控制音效源 != null && 控制音效 != null)
+        {
+            控制音效源.clip = 控制音效;  // 指定要循环的音频片段
+            控制音效源.loop = true;     // 启用循环
+            控制音效源.Play();           // 开始播放（支持循环）
+        }
     }
 
     void 停止控制()
@@ -141,6 +154,13 @@ public class 引力器 : MonoBehaviour
         清除提示();
         相机控制器.target = this.transform;
         激光线.enabled = false;  // 停止控制时禁用激光线
+
+        // 停止操控音效
+        if (控制音效源 != null)
+        {
+            控制音效源.loop = false;  // 停止循环播放
+            控制音效源.Stop();  // 停止播放音效
+        }
     }
 
     void 控制物体移动()
