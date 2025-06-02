@@ -22,19 +22,6 @@ public class ModuleHintManager : MonoBehaviour
         if (提示文字 == null || inventory == null)
             return;
 
-        // -------- 1. 状态提示优先级 --------
-        if (gravityTool != null && gravityTool.正在控制状态())
-        {
-            设置提示("控制中：WASD移动，G 退出控制");
-            return;
-        }
-
-        if (inertiaLock != null && inertiaLock.惯性锁生效状态())
-        {
-            设置提示("再次右键取消惯性锁功能");
-            return;
-        }
-
         if (shieldTool != null && inventory.HasModule(ModuleType.防护罩))
         {
             float 无敌剩余 = shieldTool.当前无敌剩余时间;
@@ -82,6 +69,19 @@ public class ModuleHintManager : MonoBehaviour
                 冷却状态文本.text = "";
                 冷却状态文本.enabled = false;
             }
+        }
+
+        // -------- 1. 状态提示优先级 --------
+        if (gravityTool != null && gravityTool.正在控制状态())
+        {
+            设置提示("控制中：WASD移动，G 退出控制");
+            return;
+        }
+
+        if (inertiaLock != null && inertiaLock.惯性锁生效状态())
+        {
+            设置提示("再次右键取消惯性锁功能");
+            return;
         }
 
         // -------- 2. 插槽提示（拉杆） --------
