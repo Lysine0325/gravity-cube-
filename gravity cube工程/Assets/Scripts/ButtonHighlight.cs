@@ -13,9 +13,13 @@ public class ButtonHighlight : MonoBehaviour
     public Color normalTextColor = new Color(0.3725f, 0.4863f, 0.7373f, 1); // #5F7CBC
     public Color highlightedTextColor = new Color(0f, 0.1686f, 0.5294f, 1); // #002B87
 
+    [Header("音效设置")]
+    public AudioClip hoverSound; // 鼠标悬浮时播放的音效
+
     private Image buttonImage;
     private Text buttonText; // 如果是传统Text组件
     private TMPro.TextMeshProUGUI buttonTextPro; // 如果是TextMeshPro
+    private AudioSource audioSource; // 音频源
 
     void Start()
     {
@@ -24,6 +28,9 @@ public class ButtonHighlight : MonoBehaviour
         // 获取文字组件（兼容传统Text和TextMeshPro）
         buttonText = GetComponentInChildren<Text>();
         buttonTextPro = GetComponentInChildren<TMPro.TextMeshProUGUI>();
+
+        // 获取音频源组件
+        audioSource = gameObject.AddComponent<AudioSource>(); // 如果没有音频源，自动添加一个
 
         // 设置初始状态
         if (buttonImage != null && normalSprite != null)
@@ -67,6 +74,12 @@ public class ButtonHighlight : MonoBehaviour
         }
 
         SetTextColor(highlightedTextColor);
+
+        // 播放悬浮音效
+        if (hoverSound != null && audioSource != null)
+        {
+            audioSource.PlayOneShot(hoverSound);
+        }
     }
 
     // 鼠标离开时调用
