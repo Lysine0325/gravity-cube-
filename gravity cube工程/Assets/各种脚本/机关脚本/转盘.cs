@@ -4,6 +4,7 @@ using System.Collections.Generic;
 
 public class 转盘 : MonoBehaviour
 {
+
     [Header("控制设置")]
     [Tooltip("需要控制的多个旋转平台")]
     public List<旋转平台> targetPlatforms;  // Change this to a list
@@ -31,6 +32,7 @@ public class 转盘 : MonoBehaviour
     private bool 允许操作 = true;
     private Transform 玩家;
     private bool 在范围内;
+
 
     void Start()
     {

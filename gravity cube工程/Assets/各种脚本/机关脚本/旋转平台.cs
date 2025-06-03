@@ -1,6 +1,5 @@
 using UnityEngine;
 using System.Collections;
-using System.Collections.Generic;
 
 public enum RotationMode { Auto, TriggerActivated }
 public enum RotationAxis { X, Y, Z }
@@ -37,9 +36,6 @@ public class 旋转平台 : MonoBehaviour
 
     private Rigidbody rb;
     private BoxCollider platformTrigger;
-    private HashSet<CharacterController> activeRiders = new HashSet<CharacterController>();
-    private Vector3 previousPosition;
-    private Quaternion previousRotation;
     private bool isRotating;
     private Quaternion axisRotation;
     private bool isActivated;
@@ -51,8 +47,6 @@ public class 旋转平台 : MonoBehaviour
         rb.isKinematic = true;
         CreatePlatformTrigger();
         UpdateAxisRotation();
-        previousPosition = transform.position;
-        previousRotation = transform.rotation;
 
         // 自动模式默认激活
         if (rotationMode == RotationMode.Auto)
@@ -71,8 +65,6 @@ public class 旋转平台 : MonoBehaviour
 
     void FixedUpdate()
     {
-        UpdateRidersPosition();
-
         // 循环模式持续旋转
         if (loopRotation && isActivated && !isRotating)
         {
@@ -94,27 +86,6 @@ public class 旋转平台 : MonoBehaviour
             case RotationAxis.Z: return Quaternion.Euler(0, 0, 90);
             default: return Quaternion.identity;
         }
-    }
-
-    void UpdateRidersPosition()
-    {
-        Vector3 positionDelta = transform.position - previousPosition;
-        Quaternion rotationDelta = transform.rotation * Quaternion.Inverse(previousRotation);
-
-        foreach (CharacterController rider in activeRiders)
-        {
-            if (rider != null)
-            {
-                Vector3 anchorToRider = rider.transform.position - transform.position;
-                Vector3 rotatedPosition = rotationDelta * anchorToRider;
-                Vector3 finalMovement = (transform.position + rotatedPosition) - rider.transform.position;
-
-                rider.Move(finalMovement + positionDelta);
-            }
-        }
-
-        previousPosition = transform.position;
-        previousRotation = transform.rotation;
     }
 
     IEnumerator RotatePlatform(RotationDirection direction)
@@ -195,18 +166,6 @@ public class 旋转平台 : MonoBehaviour
             currentDirection = RotationDirection.CounterClockwise;
             StartCoroutine(RotatePlatform(currentDirection));
         }
-    }
-
-    void OnTriggerEnter(Collider other)
-    {
-        var cc = other.GetComponent<CharacterController>();
-        if (cc) activeRiders.Add(cc);
-    }
-
-    void OnTriggerExit(Collider other)
-    {
-        var cc = other.GetComponent<CharacterController>();
-        if (cc) activeRiders.Remove(cc);
     }
 
     void OnDrawGizmosSelected()
