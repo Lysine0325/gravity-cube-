@@ -27,8 +27,12 @@ public class 惯性锁 : MonoBehaviour
         if (!拥有惯性锁)
         {
             清除提示();
+            // 清除悬停描边，防止残留
+            移除悬停描边();
+            当前悬停物体 = null;
             return;
         }
+
 
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
         if (Physics.Raycast(ray, out RaycastHit hit, 100f))
@@ -64,16 +68,22 @@ public class 惯性锁 : MonoBehaviour
         {
             if (!惯性锁生效中)
             {
-                if (当前悬停物体 != null && 当前悬停物体.CompareTag("惯性锁平台"))
+                Ray ray1 = Camera.main.ScreenPointToRay(Input.mousePosition);
+                if (Physics.Raycast(ray1, out RaycastHit hit1, 100f))
                 {
-                    var 平移 = 当前悬停物体.GetComponent<平移平台>();
-                    var 旋转 = 当前悬停物体.GetComponent<旋转平台>();
+                    GameObject hitObj = hit1.collider.gameObject;
 
-                    if ((平移 != null && 平移.movementMode == MovementMode.Auto) ||
-                        (旋转 != null && 旋转.rotationMode == RotationMode.Auto))
+                    if (hitObj.CompareTag("惯性锁平台"))
                     {
-                        当前目标平台 = 当前悬停物体.transform;
-                        锁定平台(当前悬停物体, 平移, 旋转);
+                        var 平移 = hitObj.GetComponent<平移平台>();
+                        var 旋转 = hitObj.GetComponent<旋转平台>();
+
+                        if ((平移 != null && 平移.movementMode == MovementMode.Auto) ||
+                            (旋转 != null && 旋转.rotationMode == RotationMode.Auto))
+                        {
+                            当前目标平台 = hitObj.transform;
+                            锁定平台(hitObj, 平移, 旋转);
+                        }
                     }
                 }
             }
@@ -82,6 +92,7 @@ public class 惯性锁 : MonoBehaviour
                 解锁平台();
             }
         }
+
     }
 
     public bool 惯性锁生效状态()
