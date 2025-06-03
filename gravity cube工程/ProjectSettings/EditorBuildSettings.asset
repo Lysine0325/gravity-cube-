@@ -12,6 +12,9 @@ EditorBuildSettings:
     path: Assets/MenuScene.unity
     guid: 713a7d8fd6fe81541a7a238b365f5817
   - enabled: 1
+    path: "Assets/\u5F00\u59CB\u5267\u60C5.unity"
+    guid: 7b6a6b5e1cba81f4f88a14849de92a7a
+  - enabled: 1
     path: "Assets/\u7B2C\u4E00\u5173.unity"
     guid: e158453e28c34554bb63db18866867dd
   - enabled: 1

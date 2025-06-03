@@ -2110,6 +2110,39 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 4407132839605352142, guid: 4c65c516f1a2add4cad88519794d4659, type: 3}
   m_PrefabInstance: {fileID: 551498225}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &551498230 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 3314732783370577884, guid: 4c65c516f1a2add4cad88519794d4659, type: 3}
+  m_PrefabInstance: {fileID: 551498225}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &551498231 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 2607479946441917732, guid: 4c65c516f1a2add4cad88519794d4659, type: 3}
+  m_PrefabInstance: {fileID: 551498225}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &551498232 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8871492926091380529, guid: 4c65c516f1a2add4cad88519794d4659, type: 3}
+  m_PrefabInstance: {fileID: 551498225}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &560635548
 GameObject:
   m_ObjectHideFlags: 0
@@ -3313,7 +3346,10 @@ MonoBehaviour:
   replayButton: {fileID: 551498227}
   selectLevelButton: {fileID: 551498226}
   victorySound: {fileID: 8300000, guid: 3f5b144c352140140bbaed054d1143ce, type: 3}
-  starImages: []
+  starImages:
+  - {fileID: 551498232}
+  - {fileID: 551498231}
+  - {fileID: 551498230}
   starOnSprite: {fileID: 21300000, guid: c8784a0bd0c44024ea72c3d572e3b754, type: 3}
   starOffSprite: {fileID: 21300000, guid: 68ec7a2e57188294f9a229a18b53f343, type: 3}
 --- !u!65 &932313377

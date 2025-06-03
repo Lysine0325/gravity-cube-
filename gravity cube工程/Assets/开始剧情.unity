@@ -253,10 +253,10 @@ MonoBehaviour:
   typingSpeed: 0.05
   dialogueText: {fileID: 1474373953}
   skipText: {fileID: 0}
-  skipButton: {fileID: 2035385997}
+  skipButton: {fileID: 0}
   dialoguePanel: {fileID: 0}
   audioSource: {fileID: 959485605}
-  typeSound: {fileID: 8300000, guid: 52398b14a903d914baa64b4d7aa8b7d7, type: 3}
+  typeSound: {fileID: 8300000, guid: a02f501c6cf326448912309bde2eb57b, type: 3}
   nextDialogueSound: {fileID: 0}
   nextSceneName: SelectScene
 --- !u!65 &143892641
@@ -1216,7 +1216,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 2035386000}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 143892640}
+        m_TargetAssemblyTypeName: "\u5F00\u5934\u5267\u60C5, Assembly-CSharp"
+        m_MethodName: JumpToScene
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &2035386000
 MonoBehaviour:
   m_ObjectHideFlags: 0
