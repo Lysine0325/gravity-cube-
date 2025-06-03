@@ -22,6 +22,11 @@ public class 转盘 : MonoBehaviour
     [Tooltip("提示图标的高度偏移")]
     public float 引导高度偏移 = 1.5f;
 
+    [Header("音效设置")]
+    public AudioSource rotationAudioSource;  // 用于播放旋转音效
+    public AudioClip rotationClockwiseSound; // 顺时针旋转音效
+    public AudioClip rotationCounterClockwiseSound; // 逆时针旋转音效
+
     private float 冷却计时器;
     private bool 允许操作 = true;
     private Transform 玩家;
@@ -111,6 +116,16 @@ public class 转盘 : MonoBehaviour
     {
         允许操作 = false;
 
+        // 播放旋转音效
+        if (direction == RotationDirection.Clockwise && rotationClockwiseSound != null)
+        {
+            rotationAudioSource.PlayOneShot(rotationClockwiseSound);
+        }
+        else if (direction == RotationDirection.CounterClockwise && rotationCounterClockwiseSound != null)
+        {
+            rotationAudioSource.PlayOneShot(rotationCounterClockwiseSound);
+        }
+
         foreach (var platform in targetPlatforms)
         {
             if (platform != null)
@@ -127,6 +142,9 @@ public class 转盘 : MonoBehaviour
             }
         }
 
+        // 执行转盘自身的旋转动画
+        StartCoroutine(旋转转盘动画(direction));
+
         // 添加操作反馈
         StartCoroutine(操作反馈());
     }
@@ -140,6 +158,25 @@ public class 转盘 : MonoBehaviour
         transform.position = 原始位置 - new Vector3(0, 按下位移, 0);
         yield return new WaitForSeconds(0.1f);
         transform.position = 原始位置;
+    }
+
+    System.Collections.IEnumerator 旋转转盘动画(RotationDirection direction)
+    {
+        float 旋转角度 = (direction == RotationDirection.Clockwise) ? 90f : -90f;
+        float 旋转时间 = 0.5f; // 设置旋转持续时间
+        Quaternion 初始旋转 = transform.rotation;
+        Quaternion 目标旋转 = Quaternion.Euler(0, 旋转角度, 0) * transform.rotation;
+
+        float elapsedTime = 0f;
+
+        while (elapsedTime < 旋转时间)
+        {
+            transform.rotation = Quaternion.Slerp(初始旋转, 目标旋转, elapsedTime / 旋转时间);
+            elapsedTime += Time.deltaTime;
+            yield return null;
+        }
+
+        transform.rotation = 目标旋转;
     }
 
     void OnValidate()
@@ -169,5 +206,12 @@ public class 转盘 : MonoBehaviour
                 Gizmos.DrawLine(transform.position, platform.transform.position);
             }
         }
+    }
+
+    // 添加方向枚举
+    public enum RotationDirection
+    {
+        Clockwise,
+        CounterClockwise
     }
 }

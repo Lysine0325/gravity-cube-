@@ -44,8 +44,8 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _FluidLiquidTex:
-        m_Texture: {fileID: 2800000, guid: e521d101ffb85d44582ca0a9d31523cf, type: 3}
-        m_Scale: {x: 1, y: 1}
+        m_Texture: {fileID: 2800000, guid: f23743715eb4f6340b4181a8b91c9365, type: 3}
+        m_Scale: {x: 0.91, y: 1}
         m_Offset: {x: 0, y: 0}
     - _FluidMaskTex:
         m_Texture: {fileID: 2800000, guid: a436033526ae744ee913ad2f56b83363, type: 3}
@@ -56,7 +56,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _FluidSolidTex:
-        m_Texture: {fileID: 2800000, guid: 903f6eb62ac985c4ab55480d0f3e42e2, type: 3}
+        m_Texture: {fileID: 2800000, guid: f23743715eb4f6340b4181a8b91c9365, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _LavaLiquidTex:
@@ -90,7 +90,7 @@ Material:
     - _DetailNormalMapScale: 1
     - _DstBlend: 0
     - _Glossiness: 1
-    - _Intensity: 4
+    - _Intensity: 1.87
     - _Metallic: 0
     - _Mode: 0
     - _OcclusionStrength: 1

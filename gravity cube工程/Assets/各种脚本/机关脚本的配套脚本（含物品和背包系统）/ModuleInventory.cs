@@ -47,7 +47,7 @@ public class ModuleInventory : MonoBehaviour
     {
         HandleFixedKeySwitching();
 
-        if (Input.GetKeyDown(KeyCode.Q))
+        if (Input.GetKeyDown(KeyCode.R))
         {
             DropCurrentModule();
         }
