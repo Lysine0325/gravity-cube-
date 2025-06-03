@@ -1,4 +1,5 @@
 using UnityEngine;
+using TMPro; // Don't forget to import TextMeshPro namespace
 
 [RequireComponent(typeof(CharacterController))]
 public class PlayerController1 : MonoBehaviour
@@ -24,9 +25,17 @@ public class PlayerController1 : MonoBehaviour
 
     private bool isWalking = false; // øÿ÷∆“Ù–ß≤•∑≈µƒ◊¥Ã¨
 
+    // TextMeshPro UI for climbing instructions
+    [Header("UI Text")]
+    public TextMeshProUGUI climbingInstructionsText; // Drag the TMP text component here
+
     void Start()
     {
         controller = GetComponent<CharacterController>();
+        if (climbingInstructionsText != null)
+        {
+            climbingInstructionsText.enabled = false; // Hide the text at start
+        }
     }
 
     void Update()
@@ -34,10 +43,21 @@ public class PlayerController1 : MonoBehaviour
         if (isClimbing)
         {
             HandleClimbing();
+            // Show climbing instructions
+            if (climbingInstructionsText != null)
+            {
+                climbingInstructionsText.text = "∞¥ ø’∏Òº¸ Õ—¿Î≈¿Ã›";
+                climbingInstructionsText.enabled = true;
+            }
         }
         else
         {
             HandleWalking();
+            // Hide climbing instructions when not climbing
+            if (climbingInstructionsText != null)
+            {
+                climbingInstructionsText.enabled = false;
+            }
         }
     }
 
@@ -113,7 +133,7 @@ public class PlayerController1 : MonoBehaviour
     //¥•≈ˆÃ›◊”∆Ù∂Ø≈ ≈¿µƒ¬ﬂº≠
     void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("Ladder"))//ºÏ≤‚ «∑Ò «Ladder±Í«©
+        if (other.CompareTag("Ladder")) //ºÏ≤‚ «∑Ò «Ladder±Í«©
         {
             EnterLadder(other.transform);
         }
@@ -149,5 +169,11 @@ public class PlayerController1 : MonoBehaviour
         currentLadder = null;
 
         animator.SetBool("IsClimbing", false);
+
+        // Hide climbing instructions when exiting the ladder
+        if (climbingInstructionsText != null)
+        {
+            climbingInstructionsText.enabled = false;
+        }
     }
 }
