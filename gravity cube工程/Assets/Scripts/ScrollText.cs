@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using UnityEngine.SceneManagement; // 新增命名空间
 
 public class ScrollText : MonoBehaviour
 {
@@ -15,6 +16,7 @@ public class ScrollText : MonoBehaviour
     private float fadeTimer = 0f;
     private bool isFadingIn = true;
     private bool isFadingOut = false;
+    private bool hasFinished = false; // 新增：标识流程已完成
 
     void Start()
     {
@@ -22,19 +24,16 @@ public class ScrollText : MonoBehaviour
         canvasGroup = GetComponent<CanvasGroup>();
         tmpText = scrollRect.content.GetComponentInChildren<TextMeshProUGUI>();
 
-        // 初始设置
         canvasGroup.alpha = 0f;
-        // 从顶部开始(1 = 底部, 0 = 顶部)
-        scrollRect.verticalNormalizedPosition = 1f; // ⚠️ 修改这里：初始设为1（顶部）
+        scrollRect.verticalNormalizedPosition = 1f; // 从顶部开始
 
-        // 确保TMP文本设置正确
         tmpText.verticalAlignment = VerticalAlignmentOptions.Top;
         tmpText.overflowMode = TextOverflowModes.Truncate;
     }
 
     void Update()
     {
-        // 淡入处理（保持不变）
+        // 淡入处理
         if (isFadingIn)
         {
             fadeTimer += Time.deltaTime;
@@ -45,22 +44,21 @@ public class ScrollText : MonoBehaviour
                 isFadingIn = false;
                 fadeTimer = 0f;
             }
-            return; // 淡入期间不滚动
+            return;
         }
 
-        // 滚动处理(从上往下)
+        // 滚动处理
         if (isScrolling)
         {
-            // 修改这里：向下滚动（减少verticalNormalizedPosition）
             scrollRect.verticalNormalizedPosition -= Time.deltaTime * scrollSpeed / scrollRect.content.rect.height;
 
-            // 检查是否需要开始淡出(接近底部时)
+            // 接近底部时触发淡出
             if (scrollRect.verticalNormalizedPosition <= fadeOutDuration * scrollSpeed / scrollRect.content.rect.height)
             {
                 isFadingOut = true;
             }
 
-            // 检查是否滚动到底部
+            // 滚动到底部时停止滚动
             if (scrollRect.verticalNormalizedPosition <= 0f)
             {
                 scrollRect.verticalNormalizedPosition = 0f;
@@ -68,17 +66,24 @@ public class ScrollText : MonoBehaviour
             }
         }
 
-        // 淡出处理（保持不变）
-        if (isFadingOut)
+        // 淡出处理
+        if (isFadingOut && !hasFinished)
         {
             fadeTimer += Time.deltaTime;
             canvasGroup.alpha = 1f - Mathf.Clamp01(fadeTimer / fadeOutDuration);
 
+            // 淡出完成后跳转场景
             if (fadeTimer >= fadeOutDuration)
             {
-                isFadingOut = false;
-                // 淡出完成后的逻辑
+                hasFinished = true;
+                LoadSelectScene();
             }
         }
+    }
+
+    // 新增：场景跳转方法
+    private void LoadSelectScene()
+    {
+        SceneManager.LoadScene("SelectScene");
     }
 }

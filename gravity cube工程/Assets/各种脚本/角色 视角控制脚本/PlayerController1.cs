@@ -18,7 +18,7 @@ public class PlayerController1 : MonoBehaviour
     private bool isClimbing = false;
     private Vector3 climbDirection = Vector3.up;
     private Transform currentLadder;
-
+    public float ladderLateralSpeed = 2f;
     [Header("音效")]
     public AudioSource walkAudioSource; // 角色的音效源（需要拖入）
     public AudioClip walkSound; // 走路音效
@@ -112,17 +112,25 @@ public class PlayerController1 : MonoBehaviour
         velocity = Vector3.zero;
 
         float vertical = Input.GetAxis("Vertical");
-        Vector3 move = climbDirection * vertical * climbSpeed;
+        float horizontal = Input.GetAxis("Horizontal"); // 新增：获取水平输入
+
+        // 新增：计算左右移动方向
+        Vector3 lateralDirection = Vector3.zero;
+        if (currentLadder != null)
+        {
+            // 使用梯子的右方向作为水平移动基准
+            lateralDirection = currentLadder.right;
+        }
+
+        // 组合移动向量：上下移动 + 左右移动
+        Vector3 move = (climbDirection * vertical * climbSpeed) +
+                      (-lateralDirection * horizontal * ladderLateralSpeed);
 
         controller.Move(move * Time.deltaTime);
 
-        //  可选：按下空格退出爬梯
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            ExitLadder();
-        }
-
-        animator.SetFloat("Speed", Mathf.Abs(vertical));
+        // 传递速度给动画 - 同时考虑垂直和水平移动
+        float combinedSpeed = Mathf.Max(Mathf.Abs(vertical), Mathf.Abs(horizontal));
+        animator.SetFloat("Speed", combinedSpeed);
 
         if (Input.GetKeyDown(KeyCode.Space))
         {
@@ -130,16 +138,16 @@ public class PlayerController1 : MonoBehaviour
         }
     }
 
-    //触碰梯子启动攀爬的逻辑
+    // 触碰梯子启动攀爬的逻辑
     void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("Ladder")) //检测是否是Ladder标签
+        if (other.CompareTag("Ladder"))
         {
             EnterLadder(other.transform);
         }
     }
 
-    //确认结束攀爬的过程
+    // 确认结束攀爬的过程
     void OnTriggerExit(Collider other)
     {
         if (other.CompareTag("Ladder"))
@@ -148,7 +156,6 @@ public class PlayerController1 : MonoBehaviour
         }
     }
 
-    //启动攀爬之后的基本设置，要把ladder的参数传进去
     void EnterLadder(Transform ladder)
     {
         isClimbing = true;
@@ -159,21 +166,22 @@ public class PlayerController1 : MonoBehaviour
         transform.position = new Vector3(ladder.position.x, pos.y, ladder.position.z);
         velocity = Vector3.zero;
 
-        animator.SetBool("IsClimbing", true); // 
+        // 让角色面向梯子
+        transform.forward = -ladder.forward;
+
+        animator.SetBool("IsClimbing", true);
     }
 
-    //结束攀爬的设置
     void ExitLadder()
     {
         isClimbing = false;
         currentLadder = null;
-
         animator.SetBool("IsClimbing", false);
 
-        // Hide climbing instructions when exiting the ladder
         if (climbingInstructionsText != null)
         {
             climbingInstructionsText.enabled = false;
         }
     }
 }
+

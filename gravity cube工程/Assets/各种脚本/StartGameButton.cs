@@ -18,6 +18,6 @@ public class StartGameButton : MonoBehaviour
     void OnStartButtonClick()
     {
         // 加载菜单场景
-        SceneManager.LoadScene("SelectScene");
+        SceneManager.LoadScene("开始剧情");
     }
 }
